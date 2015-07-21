@@ -41,7 +41,7 @@ func main() {
 		data, err := ioutil.ReadFile(filename)
 		if err != nil {
 			fmt.Println(filename + ": unable to read file")
-			return
+			continue
 		}
 
 		// Declare the hashes.
