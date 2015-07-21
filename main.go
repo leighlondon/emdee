@@ -4,12 +4,25 @@ import (
 	"crypto/md5"
 	"crypto/sha256"
 	"encoding/hex"
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"os"
 )
 
+var (
+	md5Flag    bool
+	sha256Flag bool
+)
+
+func init() {
+	flag.BoolVar(&md5Flag, "m", true, "Calculate the MD5 hash.")
+	flag.BoolVar(&sha256Flag, "s", true, "Calculate the SHA256 hash.")
+}
+
 func main() {
+
+	flag.Parse()
 
 	if len(os.Args) < 2 {
 		fmt.Println("no filename provided")
