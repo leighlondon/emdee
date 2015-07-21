@@ -10,6 +10,11 @@ import (
 
 func main() {
 
+	if len(os.Args) < 2 {
+		fmt.Println("no filename provided")
+		return
+	}
+
 	filename := os.Args[1]
 
 	data, err := ioutil.ReadFile(filename)
