@@ -11,8 +11,15 @@ import (
 func main() {
 
 	filename := os.Args[1]
-	data, _ := ioutil.ReadFile(filename)
+
+	data, err := ioutil.ReadFile(filename)
+	if err != nil {
+		fmt.Println("unable to read file")
+		return
+	}
+
 	md5hash := md5.New()
 	md5hash.Write(data)
+
 	fmt.Println("md5: " + hex.EncodeToString(md5hash.Sum(nil)))
 }
