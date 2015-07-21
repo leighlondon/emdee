@@ -30,7 +30,7 @@ func main() {
 		sha256Flag = true
 	}
 
-	if flag.NArg() != 1 {
+	if flag.NArg() == 0 {
 		fmt.Println("no filename provided")
 		return
 	}
