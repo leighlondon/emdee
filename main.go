@@ -37,9 +37,10 @@ func main() {
 
 	for _, filename := range flag.Args() {
 
+		// Load the data from file.
 		data, err := ioutil.ReadFile(filename)
 		if err != nil {
-			fmt.Println("unable to read file")
+			fmt.Println(filename + ": unable to read file")
 			return
 		}
 
