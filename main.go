@@ -43,12 +43,14 @@ func main() {
 			return
 		}
 
+		// Declare the hashes.
+		md5hash := md5.New()
+		sha256hash := sha256.New()
+
 		if md5Flag {
-			md5hash := md5.New()
 			md5hash.Write(data)
 		}
 		if sha256Flag {
-			sha256hash := sha256.New()
 			sha256hash.Write(data)
 		}
 
