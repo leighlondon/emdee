@@ -16,13 +16,20 @@ var (
 )
 
 func init() {
-	flag.BoolVar(&md5Flag, "m", true, "Calculate the MD5 hash.")
-	flag.BoolVar(&sha256Flag, "s", true, "Calculate the SHA256 hash.")
+	flag.BoolVar(&md5Flag, "m", false, "Calculate the MD5 hash.")
+	flag.BoolVar(&sha256Flag, "s", false, "Calculate the SHA256 hash.")
 }
 
 func main() {
 
+	// Parse the flags.
 	flag.Parse()
+
+	// If no flags were set, run everything.
+	if flag.NFlag() == 0 {
+		md5Flag = true
+		sha256Flag = true
+	}
 
 	if len(os.Args) < 2 {
 		fmt.Println("no filename provided")
