@@ -55,6 +55,7 @@ func main() {
 			sha256hash.Write(data)
 		}
 
+		fmt.Println("\nfile:   " + filename)
 		if md5Flag {
 			fmt.Println("md5:    " + hex.EncodeToString(md5hash.Sum(nil)))
 		}
