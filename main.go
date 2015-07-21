@@ -30,6 +30,7 @@ func main() {
 		sha256Flag = true
 	}
 
+	// Need at least one filename to be provided.
 	if flag.NArg() == 0 {
 		fmt.Println("no filename provided")
 		return
@@ -48,6 +49,7 @@ func main() {
 		md5hash := md5.New()
 		sha256hash := sha256.New()
 
+		// Calculate the hashes on demand.
 		if md5Flag {
 			md5hash.Write(data)
 		}
@@ -55,6 +57,7 @@ func main() {
 			sha256hash.Write(data)
 		}
 
+		// Print the output.
 		fmt.Println("\nfile:   " + filename)
 		if md5Flag {
 			fmt.Println("md5:    " + hex.EncodeToString(md5hash.Sum(nil)))
