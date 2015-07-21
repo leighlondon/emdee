@@ -12,17 +12,25 @@ import (
 var (
 	md5Flag    bool
 	sha256Flag bool
+	versionFlag bool
 )
 
 func init() {
 	flag.BoolVar(&md5Flag, "m", false, "Calculate the MD5 hash.")
 	flag.BoolVar(&sha256Flag, "s", false, "Calculate the SHA256 hash.")
+	flag.BoolVar(&versionFlag, "v", false, "Show the version number.")
 }
 
 func main() {
 
 	// Parse the flags.
 	flag.Parse()
+
+	// Check for the easy flag.
+	if versionFlag {
+		fmt.Println(VersionString)
+		return
+	}
 
 	// If no flags were set, run everything.
 	if flag.NFlag() == 0 {
