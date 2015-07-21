@@ -35,27 +35,28 @@ func main() {
 		return
 	}
 
-	filename := flag.Args()[0]
+	for _, filename := range flag.Args() {
 
-	data, err := ioutil.ReadFile(filename)
-	if err != nil {
-		fmt.Println("unable to read file")
-		return
-	}
+		data, err := ioutil.ReadFile(filename)
+		if err != nil {
+			fmt.Println("unable to read file")
+			return
+		}
 
-	if md5Flag {
-		md5hash := md5.New()
-		md5hash.Write(data)
-	}
-	if sha256Flag {
-		sha256hash := sha256.New()
-		sha256hash.Write(data)
-	}
+		if md5Flag {
+			md5hash := md5.New()
+			md5hash.Write(data)
+		}
+		if sha256Flag {
+			sha256hash := sha256.New()
+			sha256hash.Write(data)
+		}
 
-	if md5Flag {
-		fmt.Println("md5:    " + hex.EncodeToString(md5hash.Sum(nil)))
-	}
-	if sha256Flag {
-		fmt.Println("sha256: " + hex.EncodeToString(sha256hash.Sum(nil)))
+		if md5Flag {
+			fmt.Println("md5:    " + hex.EncodeToString(md5hash.Sum(nil)))
+		}
+		if sha256Flag {
+			fmt.Println("sha256: " + hex.EncodeToString(sha256hash.Sum(nil)))
+		}
 	}
 }
