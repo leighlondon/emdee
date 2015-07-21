@@ -43,12 +43,16 @@ func main() {
 		return
 	}
 
-	md5hash := md5.New()
-	md5hash.Write(data)
+	if md5Flag {
+		md5hash := md5.New()
+		md5hash.Write(data)
+		fmt.Println("md5: " + hex.EncodeToString(md5hash.Sum(nil)))
+	}
 
-	sha256hash := sha256.New()
-	sha256hash.Write(data)
+	if sha256Flag {
+		sha256hash := sha256.New()
+		sha256hash.Write(data)
+		fmt.Println("sha256: " + hex.EncodeToString(sha256hash.Sum(nil)))
+	}
 
-	fmt.Println("md5: " + hex.EncodeToString(md5hash.Sum(nil)))
-	fmt.Println("sha256: " + hex.EncodeToString(sha256hash.Sum(nil)))
 }
