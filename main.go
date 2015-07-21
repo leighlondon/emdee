@@ -46,13 +46,16 @@ func main() {
 	if md5Flag {
 		md5hash := md5.New()
 		md5hash.Write(data)
-		fmt.Println("md5: " + hex.EncodeToString(md5hash.Sum(nil)))
 	}
-
 	if sha256Flag {
 		sha256hash := sha256.New()
 		sha256hash.Write(data)
-		fmt.Println("sha256: " + hex.EncodeToString(sha256hash.Sum(nil)))
 	}
 
+	if md5Flag {
+		fmt.Println("md5:    " + hex.EncodeToString(md5hash.Sum(nil)))
+	}
+	if sha256Flag {
+		fmt.Println("sha256: " + hex.EncodeToString(sha256hash.Sum(nil)))
+	}
 }
