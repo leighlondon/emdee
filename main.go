@@ -7,7 +7,6 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
-	"os"
 )
 
 var (
@@ -31,12 +30,12 @@ func main() {
 		sha256Flag = true
 	}
 
-	if len(os.Args) < 2 {
+	if flag.NArg() != 1 {
 		fmt.Println("no filename provided")
 		return
 	}
 
-	filename := os.Args[1]
+	filename := flag.Args()[0]
 
 	data, err := ioutil.ReadFile(filename)
 	if err != nil {
