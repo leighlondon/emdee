@@ -54,24 +54,24 @@ func main() {
 		}
 
 		// Declare the hashes.
-		md5hash := md5.New()
-		sha256hash := sha256.New()
+		md5Hash := md5.New()
+		sha256Hash := sha256.New()
 
 		// Calculate the hashes on demand.
 		if md5Flag {
-			md5hash.Write(data)
+			md5Hash.Write(data)
 		}
 		if sha256Flag {
-			sha256hash.Write(data)
+			sha256Hash.Write(data)
 		}
 
 		// Print the output.
 		fmt.Println("\nfile:   " + filename)
 		if md5Flag {
-			fmt.Println("md5:    " + hex.EncodeToString(md5hash.Sum(nil)))
+			fmt.Println("md5:    " + hex.EncodeToString(md5Hash.Sum(nil)))
 		}
 		if sha256Flag {
-			fmt.Println("sha256: " + hex.EncodeToString(sha256hash.Sum(nil)))
+			fmt.Println("sha256: " + hex.EncodeToString(sha256Hash.Sum(nil)))
 		}
 	}
 }
