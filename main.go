@@ -10,8 +10,8 @@ import (
 )
 
 var (
-	md5Flag    bool
-	sha256Flag bool
+	md5Flag     bool
+	sha256Flag  bool
 	versionFlag bool
 )
 
