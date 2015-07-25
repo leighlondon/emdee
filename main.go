@@ -44,6 +44,9 @@ func main() {
 		return
 	}
 
+	// Print the version string with the normal output.
+	fmt.Println(VersionString)
+
 	for _, filename := range flag.Args() {
 
 		// Load the data from file.
