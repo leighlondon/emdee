@@ -52,7 +52,7 @@ func main() {
 		// Load the data from file.
 		data, err := ioutil.ReadFile(filename)
 		if err != nil {
-			fmt.Println(filename + ": unable to read file")
+			fmt.Println("\n" + filename + ": unable to read file")
 			continue
 		}
 
