@@ -7,16 +7,20 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"os"
+	"runtime/pprof"
 )
 
 var (
 	md5Flag     bool
+	profileFlag bool
 	sha256Flag  bool
 	versionFlag bool
 )
 
 func init() {
 	flag.BoolVar(&md5Flag, "m", false, "Calculate the MD5 hash.")
+	flag.BoolVar(&profileFlag, "p", false, "Profile the execution.")
 	flag.BoolVar(&sha256Flag, "s", false, "Calculate the SHA256 hash.")
 	flag.BoolVar(&versionFlag, "v", false, "Show the version number.")
 }
@@ -30,6 +34,17 @@ func main() {
 	if versionFlag {
 		fmt.Println(VersionString)
 		return
+	}
+
+	// Turn on profiling.
+	if profileFlag {
+		// Set up profiling.
+		cpu, _ := os.Create("cpu.pprof")
+		pprof.StartCPUProfile(cpu)
+		defer pprof.StopCPUProfile()
+		// Enable all the flags, too.
+		md5Flag = true
+		sha256Flag = true
 	}
 
 	// If no flags were set, run everything.
