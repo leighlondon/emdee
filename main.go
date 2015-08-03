@@ -23,12 +23,12 @@ func init() {
 	flag.BoolVar(&profileFlag, "p", false, "Profile the execution.")
 	flag.BoolVar(&sha256Flag, "s", false, "Calculate the SHA256 hash.")
 	flag.BoolVar(&versionFlag, "v", false, "Show the version number.")
-}
-
-func main() {
 
 	// Parse the flags.
 	flag.Parse()
+}
+
+func main() {
 
 	// Check for the easy flag.
 	if versionFlag {
