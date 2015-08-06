@@ -1,12 +1,12 @@
 package main
 
 import (
+	"bufio"
 	"crypto/md5"
 	"crypto/sha256"
 	"encoding/hex"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"runtime/pprof"
 )
@@ -65,22 +65,30 @@ func main() {
 	for _, filename := range flag.Args() {
 
 		// Load the data from file.
-		data, err := ioutil.ReadFile(filename)
+		file, err := os.Open(filename)
 		if err != nil {
 			fmt.Println("\n" + filename + ": unable to read file")
 			continue
 		}
+		defer file.Close()
+
+		reader := bufio.NewReader(file)
+		buffer := make([]byte, 4096)
 
 		// Declare the hashes.
 		md5Hash := md5.New()
 		sha256Hash := sha256.New()
 
-		// Calculate the hashes on demand.
-		if md5Flag {
-			md5Hash.Write(data)
-		}
-		if sha256Flag {
-			sha256Hash.Write(data)
+		_, e := reader.Read(buffer)
+		for e == nil {
+			// Calculate the hashes on demand.
+			if md5Flag {
+				md5Hash.Write(buffer)
+			}
+			if sha256Flag {
+				sha256Hash.Write(buffer)
+			}
+			_, e = reader.Read(buffer)
 		}
 
 		// Print the output.
