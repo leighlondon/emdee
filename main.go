@@ -7,6 +7,7 @@ import (
 	"encoding/hex"
 	"flag"
 	"fmt"
+	"io"
 	"os"
 	"runtime/pprof"
 )
@@ -79,16 +80,13 @@ func main() {
 		md5Hash := md5.New()
 		sha256Hash := sha256.New()
 
-		_, e := reader.Read(buffer)
-		for e == nil {
-			// Calculate the hashes on demand.
-			if md5Flag {
-				md5Hash.Write(buffer)
-			}
-			if sha256Flag {
-				sha256Hash.Write(buffer)
-			}
-			_, e = reader.Read(buffer)
+		_, err = io.Copy(sha256Hash, reader)
+		if err != nil {
+			break
+		}
+		_, err = io.Copy(md5Hash, reader)
+		if err != nil {
+			break
 		}
 
 		// Print the output.
