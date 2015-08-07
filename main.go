@@ -74,7 +74,6 @@ func main() {
 		defer file.Close()
 
 		reader := bufio.NewReader(file)
-		buffer := make([]byte, 4096)
 
 		// Declare the hashes.
 		md5Hash := md5.New()
