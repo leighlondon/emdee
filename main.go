@@ -73,6 +73,7 @@ func main() {
 		}
 		defer file.Close()
 
+		// Use a buffered reader.
 		reader := bufio.NewReader(file)
 
 		// Declare the hashes.
