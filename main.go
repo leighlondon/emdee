@@ -79,11 +79,11 @@ func main() {
 		md5Hash := md5.New()
 		sha256Hash := sha256.New()
 
-		_, err = io.Copy(sha256Hash, reader)
-		if err != nil {
-			break
-		}
-		_, err = io.Copy(md5Hash, reader)
+		// Create a MultiWriter of all of the hashes.
+		all := io.MultiWriter(sha256Hash, md5Hash)
+
+		// Copy to all at once.
+		_, err = io.Copy(all, reader)
 		if err != nil {
 			break
 		}
