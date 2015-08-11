@@ -12,24 +12,16 @@ import (
 	"runtime/pprof"
 )
 
-var (
-	md5Flag     bool
-	profileFlag bool
-	sha256Flag  bool
-	versionFlag bool
-)
+func main() {
 
-func init() {
-	flag.BoolVar(&md5Flag, "m", false, "Calculate the MD5 hash.")
-	flag.BoolVar(&profileFlag, "p", false, "Profile the execution.")
-	flag.BoolVar(&sha256Flag, "s", false, "Calculate the SHA256 hash.")
-	flag.BoolVar(&versionFlag, "v", false, "Show the version number.")
+	// Flags for the program, declared here for scoping.
+	var md5Flag     = flag.Bool("m", false, "Calculate the MD5 hash.")
+	var profileFlag = flag.Bool("p", false, "Profile the execution.")
+	var sha256Flag  = flag.Bool("s", false, "Calculate the SHA256 hash.")
+	var versionFlag = flag.Bool("v", false, "Show the version number.")
 
 	// Parse the flags.
 	flag.Parse()
-}
-
-func main() {
 
 	// Check for the easy flag.
 	if versionFlag {
