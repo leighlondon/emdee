@@ -24,26 +24,26 @@ func main() {
 	flag.Parse()
 
 	// Check for the easy flag.
-	if versionFlag {
+	if *versionFlag {
 		fmt.Println(VersionString)
 		return
 	}
 
 	// Turn on profiling.
-	if profileFlag {
+	if *profileFlag {
 		// Set up profiling.
 		cpu, _ := os.Create("cpu.pprof")
 		pprof.StartCPUProfile(cpu)
 		defer pprof.StopCPUProfile()
 		// Enable all the flags, too.
-		md5Flag = true
-		sha256Flag = true
+		*md5Flag = true
+		*sha256Flag = true
 	}
 
 	// If no flags were set, run everything.
 	if flag.NFlag() == 0 {
-		md5Flag = true
-		sha256Flag = true
+		*md5Flag = true
+		*sha256Flag = true
 	}
 
 	// Need at least one filename to be provided.
@@ -83,10 +83,10 @@ func main() {
 
 		// Print the output.
 		fmt.Println("\nfile:   " + filename)
-		if md5Flag {
+		if *md5Flag {
 			fmt.Println("md5:    " + hex.EncodeToString(md5Hash.Sum(nil)))
 		}
-		if sha256Flag {
+		if *sha256Flag {
 			fmt.Println("sha256: " + hex.EncodeToString(sha256Hash.Sum(nil)))
 		}
 	}
