@@ -15,9 +15,9 @@ import (
 func main() {
 
 	// Flags for the program, declared here for scoping.
-	var md5Flag     = flag.Bool("m", false, "Calculate the MD5 hash.")
+	var md5Flag = flag.Bool("m", false, "Calculate the MD5 hash.")
 	var profileFlag = flag.Bool("p", false, "Profile the execution.")
-	var sha256Flag  = flag.Bool("s", false, "Calculate the SHA256 hash.")
+	var sha256Flag = flag.Bool("s", false, "Calculate the SHA256 hash.")
 	var versionFlag = flag.Bool("v", false, "Show the version number.")
 
 	// Parse the flags.
