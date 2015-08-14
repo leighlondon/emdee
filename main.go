@@ -12,6 +12,19 @@ import (
 	"runtime/pprof"
 )
 
+const usageString = VersionString + `
+
+Usage:
+  emdee [options] filename..
+
+Options:
+  -h	Show this screen.
+  -m	Calculate the MD5 hash.
+  -p	Profile the execution.
+  -s	Calculate the SHA256 hash.
+  -v	Show the version number.
+`
+
 func main() {
 
 	// Flags for the program, declared here for scoping.
@@ -19,6 +32,11 @@ func main() {
 	var profileFlag = flag.Bool("p", false, "Profile the execution.")
 	var sha256Flag = flag.Bool("s", false, "Calculate the SHA256 hash.")
 	var versionFlag = flag.Bool("v", false, "Show the version number.")
+
+	// Replace the usage screen.
+	flag.Usage = func() {
+		fmt.Printf(usageString)
+	}
 
 	// Parse the flags.
 	flag.Parse()
