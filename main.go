@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"crypto/md5"
+	"crypto/sha1"
 	"crypto/sha256"
 	"encoding/hex"
 	"flag"
@@ -31,6 +32,7 @@ func main() {
 	var md5Flag = flag.Bool("m", false, "Calculate the MD5 hash.")
 	var profileFlag = flag.Bool("p", false, "Profile the execution.")
 	var sha256Flag = flag.Bool("s", false, "Calculate the SHA256 hash.")
+	var sha1Flag = flag.Bool("s1", false, "Calculate the SHA1 hash.")
 	var versionFlag = flag.Bool("v", false, "Show the version number.")
 
 	// Replace the usage screen.
@@ -55,12 +57,14 @@ func main() {
 		defer pprof.StopCPUProfile()
 		// Enable all the flags, too.
 		*md5Flag = true
+		*sha1Flag = true
 		*sha256Flag = true
 	}
 
 	// If no flags were set, run everything.
 	if flag.NFlag() == 0 {
 		*md5Flag = true
+		*sha1Flag = true
 		*sha256Flag = true
 	}
 
@@ -89,9 +93,10 @@ func main() {
 		// Declare the hashes.
 		md5Hash := md5.New()
 		sha256Hash := sha256.New()
+		sha1Hash := sha1.New()
 
 		// Create a MultiWriter of all of the hashes.
-		all := io.MultiWriter(sha256Hash, md5Hash)
+		all := io.MultiWriter(sha1Hash, sha256Hash, md5Hash)
 
 		// Copy to all at once.
 		_, err = io.Copy(all, reader)
@@ -103,6 +108,9 @@ func main() {
 		fmt.Println("\nfile:   " + filename)
 		if *md5Flag {
 			fmt.Println("md5:    " + hex.EncodeToString(md5Hash.Sum(nil)))
+		}
+		if *sha1Flag {
+			fmt.Println("sha1:   " + hex.EncodeToString(sha1Hash.Sum(nil)))
 		}
 		if *sha256Flag {
 			fmt.Println("sha256: " + hex.EncodeToString(sha256Hash.Sum(nil)))
