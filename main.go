@@ -23,6 +23,7 @@ Options:
   -m	Calculate the MD5 hash.
   -p	Profile the execution.
   -s	Calculate the SHA256 hash.
+  -s1	Calculate the SHA1 hash.
   -v	Show the version number.
 `
 
