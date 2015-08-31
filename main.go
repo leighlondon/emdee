@@ -16,15 +16,15 @@ import (
 const usageString = VersionString + `
 
 Usage:
-  emdee [options] filename..
+    emdee [options] filename..
 
 Options:
-	-h	Show this screen.
-	-m	Calculate the MD5 hash.
-	-p	Profile the execution.
-	-s	Calculate the SHA256 hash.
-	-s1	Calculate the SHA1 hash.
-	-v	Show the version number.
+    -h    Show this screen.
+    -m    Calculate the MD5 hash.
+    -p    Profile the execution.
+    -s    Calculate the SHA256 hash.
+    -s1   Calculate the SHA1 hash.
+    -v    Show the version number.
 `
 
 func main() {
