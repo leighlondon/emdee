@@ -28,10 +28,10 @@ Options:
 func main() {
 
 	// Flags for the program, declared here for scoping.
-	var md5Flag = flag.Bool("m", false, "Calculate the MD5 hash.")
-	var sha256Flag = flag.Bool("s", false, "Calculate the SHA256 hash.")
-	var sha1Flag = flag.Bool("s1", false, "Calculate the SHA1 hash.")
-	var versionFlag = flag.Bool("v", false, "Show the version number.")
+	md5Flag := flag.Bool("m", false, "Calculate the MD5 hash.")
+	sha256Flag := flag.Bool("s", false, "Calculate the SHA256 hash.")
+	sha1Flag := flag.Bool("s1", false, "Calculate the SHA1 hash.")
+	versionFlag := flag.Bool("v", false, "Show the version number.")
 
 	// Replace the usage screen.
 	flag.Usage = func() {
