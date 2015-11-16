@@ -10,7 +10,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"runtime/pprof"
 )
 
 const usageString = VersionString + `
@@ -21,7 +20,6 @@ Usage:
 Options:
     -h    Show this screen.
     -m    Calculate the MD5 hash.
-    -p    Profile the execution.
     -s    Calculate the SHA256 hash.
     -s1   Calculate the SHA1 hash.
     -v    Show the version number.
@@ -31,7 +29,6 @@ func main() {
 
 	// Flags for the program, declared here for scoping.
 	var md5Flag = flag.Bool("m", false, "Calculate the MD5 hash.")
-	var profileFlag = flag.Bool("p", false, "Profile the execution.")
 	var sha256Flag = flag.Bool("s", false, "Calculate the SHA256 hash.")
 	var sha1Flag = flag.Bool("s1", false, "Calculate the SHA1 hash.")
 	var versionFlag = flag.Bool("v", false, "Show the version number.")
@@ -48,18 +45,6 @@ func main() {
 	if *versionFlag {
 		fmt.Println(VersionString)
 		return
-	}
-
-	// Turn on profiling.
-	if *profileFlag {
-		// Set up profiling.
-		cpu, _ := os.Create("cpu.pprof")
-		pprof.StartCPUProfile(cpu)
-		defer pprof.StopCPUProfile()
-		// Enable all the flags, too.
-		*md5Flag = true
-		*sha1Flag = true
-		*sha256Flag = true
 	}
 
 	// If no flags were set, run everything.
