@@ -12,7 +12,9 @@ import (
 	"os"
 )
 
-const usageString = VersionString + `
+const usage = "emdee " + version + `
+
+    Calculate message digests for input files.
 
 Usage:
     emdee [options] filename..
@@ -35,7 +37,7 @@ func main() {
 
 	// Replace the usage screen.
 	flag.Usage = func() {
-		fmt.Printf(usageString)
+		fmt.Printf(usage)
 	}
 
 	// Parse the flags.
@@ -43,7 +45,7 @@ func main() {
 
 	// Check for the easy flag.
 	if *versionFlag {
-		fmt.Println(VersionString)
+		fmt.Println(version)
 		return
 	}
 
@@ -61,7 +63,7 @@ func main() {
 	}
 
 	// Print the version string with the normal output.
-	fmt.Println(VersionString)
+	fmt.Println(version)
 
 	for _, filename := range flag.Args() {
 
