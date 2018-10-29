@@ -49,14 +49,13 @@ func main() {
 	flag.Usage = func() { log.Printf(usage) }
 	flag.Parse()
 
-	// Check for the easy flag.
 	if opts.version {
 		log.Printf("emdee v%s, commit %s\n", version, commit)
 		return
 	}
 
-	// If no flags were set, run everything.
 	if flag.NFlag() == 0 {
+		// default is sha256
 		opts.sha256 = true
 	}
 
