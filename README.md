@@ -4,15 +4,16 @@ Digesting messages.
 
 ### calculate an md5 digest
 ```
-./emdee -m <filename>
+./emdee -md5 <filename>
 ```
 
 ### calculate a sha1 digest
 ```
-./emdee -s1 <filename>
+./emdee -sha1 <filename>
 ```
 
 ### calculate a sha256 digest
 ```
-./emdee -s <filename>
+./emdee <filename> # this is the default option
+./emdee -sha256 <filename>
 ```
