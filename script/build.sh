@@ -11,8 +11,10 @@ arch="amd64" # no 386 comps in these woods folks
 
 echo "--- building for [${oss[*]}] [$arch]"
 for os in "${oss[@]}"; do
+  name="emdee-$os-$arch"
+  echo "~~~ building $name"
   GOOS="$os" GOARCH="$arch" CGO_ENABLED=0 \
-    go build -ldflags "-X main.commit=$commit" -o "emdee-$os-$arch" .
+    go build -ldflags "-X main.commit=$commit" -o "$name" .
 done
 
 echo '--- complete'
