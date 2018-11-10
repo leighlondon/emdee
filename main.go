@@ -38,37 +38,28 @@ type options struct {
 	version bool
 }
 
-func main() {
-	log.SetFlags(0)
-
-	opts := options{}
-	flag.BoolVar(&opts.md5, "md5", false, "Calculate the MD5 hash.")
-	flag.BoolVar(&opts.sha256, "sha256", false, "Calculate the SHA256 hash.")
-	flag.BoolVar(&opts.sha1, "sha1", false, "Calculate the SHA1 hash.")
-	flag.BoolVar(&opts.version, "v", false, "Show the version number.")
-	flag.Usage = func() { log.Printf(usage) }
-	flag.Parse()
+func run(logger *log.Logger, opts *options, names []string) int {
 
 	if opts.version {
-		log.Printf("emdee v%s, commit %s\n", version, commit)
-		return
+		logger.Printf("emdee v%s, commit %s\n", version, commit)
+		return 0
 	}
 
-	if flag.NFlag() == 0 {
+	if !opts.md5 && !opts.sha1 {
 		// default is sha256
 		opts.sha256 = true
 	}
 
-	if flag.NArg() == 0 {
-		log.Println("no filename provided")
-		return
+	if len(names) == 0 {
+		logger.Println("no filename provided")
+		return 2
 	}
 
-	for _, fn := range flag.Args() {
+	for _, fn := range names {
 
 		f, err := os.Open(fn)
 		if err != nil {
-			log.Println("\n" + fn + ": unable to read file")
+			logger.Println(fn + ": unable to read file")
 			continue
 		}
 		defer f.Close()
@@ -82,7 +73,8 @@ func main() {
 		all := io.MultiWriter(md, s1, s2)
 		_, err = io.Copy(all, rdr)
 		if err != nil {
-			break
+			logger.Printf("%s", err)
+			return 1
 		}
 
 		var d string
@@ -94,6 +86,21 @@ func main() {
 		case opts.sha256:
 			d = hex.EncodeToString(s2.Sum(nil))
 		}
-		log.Printf("%s\t%s\n", fn, d)
+		logger.Printf("%s\t%s\n", fn, d)
 	}
+	return 1
+}
+
+func main() {
+	logger := log.New(os.Stdout, "", 0)
+
+	opts := options{}
+	flag.BoolVar(&opts.md5, "md5", false, "Calculate the MD5 hash.")
+	flag.BoolVar(&opts.sha256, "sha256", false, "Calculate the SHA256 hash.")
+	flag.BoolVar(&opts.sha1, "sha1", false, "Calculate the SHA1 hash.")
+	flag.BoolVar(&opts.version, "v", false, "Show the version number.")
+	flag.Usage = func() { logger.Printf(usage) }
+	flag.Parse()
+
+	os.Exit(run(logger, &opts, flag.Args()))
 }
