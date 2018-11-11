@@ -15,7 +15,7 @@ import (
 
 var commit = "latest"
 
-const version = "0.7.0"
+const version = "0.8.0"
 
 const usage = "emdee " + version + `
 
