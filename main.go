@@ -7,6 +7,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"flag"
+	"hash"
 	"io"
 	"log"
 	"os"
@@ -65,27 +66,23 @@ func run(logger *log.Logger, opts *options, names []string) int {
 		defer f.Close()
 
 		rdr := bufio.NewReader(f)
+		var h hash.Hash
+		switch {
+		case opts.md5:
+			h = md5.New()
+		case opts.sha1:
+			h = sha1.New()
+		case opts.sha256:
+			h = sha256.New()
+		}
 
-		md := md5.New()
-		s1 := sha1.New()
-		s2 := sha256.New()
-
-		all := io.MultiWriter(md, s1, s2)
-		_, err = io.Copy(all, rdr)
+		_, err = io.Copy(h, rdr)
 		if err != nil {
 			logger.Printf("%s", err)
 			return 1
 		}
 
-		var d string
-		switch {
-		case opts.md5:
-			d = hex.EncodeToString(md.Sum(nil))
-		case opts.sha1:
-			d = hex.EncodeToString(s1.Sum(nil))
-		case opts.sha256:
-			d = hex.EncodeToString(s2.Sum(nil))
-		}
+		d := hex.EncodeToString(h.Sum(nil))
 		logger.Printf("%s\t%s\n", fn, d)
 	}
 	return 0
