@@ -88,7 +88,7 @@ func run(logger *log.Logger, opts *options, names []string) int {
 		}
 		logger.Printf("%s\t%s\n", fn, d)
 	}
-	return 1
+	return 0
 }
 
 func main() {
