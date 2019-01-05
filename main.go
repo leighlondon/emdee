@@ -18,14 +18,11 @@ var commit = "latest"
 
 const version = "0.8.0"
 
-const usage = "emdee " + version + `
+const usage = `usage: emdee [options] filename...
 
     Calculate message digests for input files.
 
-Usage:
-    emdee [options] filename...
-
-Options:
+options:
     -h      Show this screen.
     -md5    Calculate the MD5 hash.
     -sha256 Calculate the SHA256 hash. (default)
