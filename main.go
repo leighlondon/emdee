@@ -7,10 +7,11 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"flag"
+	"fmt"
 	"hash"
 	"io"
-	"log"
 	"os"
+	"text/tabwriter"
 )
 
 var commit = "latest"
@@ -39,28 +40,35 @@ type options struct {
 	version bool
 }
 
-func run(logger *log.Logger, opts *options, names []string) int {
+type flusher interface {
+	Flush() error
+}
 
-	if opts.version {
-		logger.Printf("emdee v%s, commit %s\n", version, commit)
-		return 0
+func run(stdout io.Writer, stderr io.Writer, opts *options, names []string) int {
+	if w, ok := stdout.(flusher); ok {
+		defer w.Flush()
+	}
+	if w, ok := stderr.(flusher); ok {
+		defer w.Flush()
 	}
 
+	if opts.version {
+		fmt.Fprintf(stdout, "emdee v%s, commit %s\n", version, commit)
+		return 0
+	}
 	if !opts.md5 && !opts.sha1 {
 		// default is sha256
 		opts.sha256 = true
 	}
-
 	if len(names) == 0 {
-		logger.Println("no filename provided")
+		fmt.Fprintf(stderr, "no filename provided\n")
 		return 2
 	}
 
 	for _, fn := range names {
-
 		f, err := os.Open(fn)
 		if err != nil {
-			logger.Println(fn + ": unable to read file")
+			fmt.Fprintf(stderr, fn+": unable to read file\n")
 			continue
 		}
 		defer f.Close()
@@ -78,26 +86,28 @@ func run(logger *log.Logger, opts *options, names []string) int {
 
 		_, err = io.Copy(h, rdr)
 		if err != nil {
-			logger.Printf("%s", err)
+			fmt.Fprintf(stderr, "%s\n", err)
 			return 1
 		}
 
 		d := hex.EncodeToString(h.Sum(nil))
-		logger.Printf("%s\t%s\n", fn, d)
+		fmt.Fprintf(stdout, "%s\t%s\n", fn, d)
 	}
+
 	return 0
 }
 
 func main() {
-	logger := log.New(os.Stdout, "", 0)
+	stdout := tabwriter.NewWriter(os.Stdout, 0, 0, 8, ' ', 0)
+	stderr := tabwriter.NewWriter(os.Stderr, 0, 0, 8, ' ', 0)
 
 	opts := options{}
 	flag.BoolVar(&opts.md5, "md5", false, "Calculate the MD5 hash.")
 	flag.BoolVar(&opts.sha256, "sha256", false, "Calculate the SHA256 hash.")
 	flag.BoolVar(&opts.sha1, "sha1", false, "Calculate the SHA1 hash.")
 	flag.BoolVar(&opts.version, "v", false, "Show the version number.")
-	flag.Usage = func() { logger.Printf(usage) }
+	flag.Usage = func() { fmt.Fprintf(os.Stdout, usage) }
 	flag.Parse()
 
-	os.Exit(run(logger, &opts, flag.Args()))
+	os.Exit(run(stdout, stderr, &opts, flag.Args()))
 }
