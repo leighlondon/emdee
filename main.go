@@ -70,6 +70,11 @@ func run(stdout io.Writer, stderr io.Writer, opts *options, names []string) int 
 		}
 		defer f.Close()
 
+		// skip directories
+		if fi, _ := f.Stat(); fi.IsDir() {
+			continue
+		}
+
 		rdr := bufio.NewReader(f)
 		var h hash.Hash
 		switch {
