@@ -11,7 +11,6 @@ import (
 	"hash"
 	"io"
 	"os"
-	"text/tabwriter"
 )
 
 const version = "0.9.1"
@@ -31,9 +30,6 @@ type flusher interface {
 }
 
 func main() {
-	stdout := tabwriter.NewWriter(os.Stdout, 0, 0, 8, ' ', 0)
-	stderr := tabwriter.NewWriter(os.Stderr, 0, 0, 8, ' ', 0)
-
 	opts := options{}
 	flag.BoolVar(&opts.md5, "md5", false, "Calculate the MD5 hash.")
 	flag.BoolVar(&opts.sha256, "sha256", false, "Calculate the SHA256 hash.")
@@ -44,7 +40,7 @@ func main() {
 	flag.Usage = func() { fmt.Fprintf(os.Stdout, usage) }
 	flag.Parse()
 
-	os.Exit(run(stdout, stderr, &opts, flag.Args()))
+	os.Exit(run(os.Stdout, os.Stderr, &opts, flag.Args()))
 }
 
 func run(stdout io.Writer, stderr io.Writer, opts *options, names []string) int {
