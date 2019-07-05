@@ -101,7 +101,7 @@ func run(stdout io.Writer, stderr io.Writer, opts *options, names []string) int 
 		}
 
 		d := hex.EncodeToString(h.Sum(nil))
-		fmt.Fprintf(stdout, "%s\t%s\n", fn, d)
+		fmt.Fprintf(stdout, "%s\t%s\n", d, fn)
 	}
 
 	return 0
@@ -112,9 +112,9 @@ const usage = `usage: emdee [options] filename...
     Calculate message digests for input files.
 
 options:
-    -h      Show this screen.
-    -md5    Calculate the MD5 hash.
-    -sha256 Calculate the SHA256 hash. (default)
-    -sha1   Calculate the SHA1 hash.
-    -v      Show the version number.
+    -h,-help  Show this screen.
+    -md5      Calculate the MD5 hash.
+    -sha256   Calculate the SHA256 hash. (default)
+    -sha1     Calculate the SHA1 hash.
+    -version  Show the version number.
 `
